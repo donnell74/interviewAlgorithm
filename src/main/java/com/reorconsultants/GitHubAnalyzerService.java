@@ -20,12 +20,10 @@ public class GitHubAnalyzerService {
         try {
             // get repos
             for (Repository eachRepo : repositoryService.getRepositories()) {
-                System.out.println(eachRepo.getName());
+                Application.masterDao.insert(eachRepo);
                 for (RepositoryCommit eachRepoCommit : commitService.getCommits(eachRepo)) {
-                    Commit eachCommit = eachRepoCommit.getCommit();
-                    System.out.println(eachCommit.getAuthor().getEmail() + " - " + eachCommit.getMessage());
+                    Application.masterDao.insert(eachRepoCommit, eachRepo);
                 }
-                break;
             }
         } catch (IOException ex) {
             ex.printStackTrace();

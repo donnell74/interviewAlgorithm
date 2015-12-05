@@ -6,11 +6,13 @@ repositories {
 }
 
 mainClassName = 'com.reorconsultants.Application'
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 dependencies {
     compile 'org.eclipse.mylyn.github:org.eclipse.egit.github.core:2.1.5'
+    compile 'com.datastax.cassandra:cassandra-driver-core:3.0.0-alpha5'
+    compile 'org.apache.commons:commons-lang3:3.4'
 }
 
 jar {

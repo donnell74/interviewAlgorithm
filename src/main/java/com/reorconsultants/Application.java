@@ -6,17 +6,23 @@ import java.io.InputStream;
 import java.util.Properties;
 
 import com.reorconsultants.GitHubAnalyzerService;
+import com.reorconsultants.db.MasterDAO;
 
 public class Application {
     private static Properties properties;
+    public static MasterDAO masterDao;
 
     public static void main(String[] args) {
         loadProperties();
         String git_username = properties.getProperty("git_username");
         String git_password = properties.getProperty("git_password");
 
+        masterDao = new MasterDAO();
+
         GitHubAnalyzerService gitHubAnalyzerService =
             new GitHubAnalyzerService(git_username, git_password);
+
+        masterDao.destroy();
     }
 
     private static void loadProperties() {
