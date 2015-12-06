@@ -21,6 +21,7 @@ public class Application {
 
         GitHubAnalyzerService gitHubAnalyzerService =
             new GitHubAnalyzerService(git_username, git_password);
+        gitHubAnalyzerService.start();
 
         masterDao.destroy();
     }
