@@ -6,6 +6,7 @@ import com.datastax.driver.core.ResultSet;
 
 import org.eclipse.egit.github.core.Repository;
 import org.eclipse.egit.github.core.Commit;
+import org.eclipse.egit.github.core.CommitStats;
 import org.eclipse.egit.github.core.RepositoryCommit;
 
 import org.apache.commons.lang3.StringEscapeUtils;
@@ -18,10 +19,13 @@ public class CommitDAO {
     }
 
     public String insert(RepositoryCommit row, Repository repo) {
-        session.execute(String.format("INSERT INTO commits (sha, repo_id, message, url, author)" +
-            " VALUES ('%s', %d, '%s', '%s', '%s') IF NOT EXISTS", row.getSha(), repo.getId(),
+        CommitStats eachStat = row.getStats();
+        session.execute(String.format(
+            "INSERT INTO commits (sha, repo_id, message, url, author, deletions, additions, total)" +
+            " VALUES ('%s', %d, '%s', '%s', '%s', %d, %d, %d) IF NOT EXISTS", row.getSha(), repo.getId(),
             row.getCommit().getMessage().replaceAll("\'", "\""),
-            row.getUrl(), row.getCommit().getAuthor().getEmail()));
+            row.getUrl(), row.getCommit().getAuthor().getEmail(),
+            eachStat.getDeletions(), eachStat.getAdditions(), eachStat.getTotal()));
 
         return row.getSha();
     }
