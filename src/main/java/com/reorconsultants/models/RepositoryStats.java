@@ -90,6 +90,7 @@ public class RepositoryStats {
         output.append("\tTotal commits: ").append(commitTotal);
         output.append("\n\tTotal line additions: ").append(lineAdditions);
         output.append("\n\tTotal line deletions: ").append(lineDeletions);
+        output.append("\n\tTotal Languages: ").append(languageTotalsMap.keySet().size());
         output.append("\n\tLanguage Totals {");
         for (String language : languageTotalsMap.keySet()) {
             CommitStats languageStats = languageTotalsMap.get(language);
