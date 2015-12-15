@@ -9,10 +9,10 @@ class LangStat
 
     def to_s()
         str = "#{@language} {\n"
-        str += "\t\tLine Additions: #{@lineAdditions}\n"
-        str += "\t\tLine Deletions: #{@lineDeletions}\n"
-        str += "\t\tLine Changes: #{@lineChanges}\n"
-        str += "\t}\n"
+        str += "\t\t\tLine Additions: #{@lineAdditions}\n"
+        str += "\t\t\tLine Deletions: #{@lineDeletions}\n"
+        str += "\t\t\tLine Changes: #{@lineChanges}\n"
+        str += "\t\t}\n"
     end
 
     def to_str()
