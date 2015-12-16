@@ -7,8 +7,13 @@ class GithubAnalyzer
         @client.login
         @repoAnalyzers = Array.new
         @client.repos.each do |eachRepo|
-            @repoAnalyzers.push RepoAnalyzer.new(@client, eachRepo)
-            break
+            begin
+                if ARGV.include?(eachRepo.name()) or ARGV.length == 0
+                    @repoAnalyzers.push RepoAnalyzer.new(@client, eachRepo)
+                end
+            rescue Octokit::NotFound
+
+            end
         end
     end
 

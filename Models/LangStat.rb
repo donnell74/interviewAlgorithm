@@ -5,6 +5,8 @@ class LangStat
         @lineAdditions = 0
         @lineDeletions = 0
         @lineChanges = 0
+        @byteAdditions = 0
+        @byteDeleteions = 0
     end
 
     def to_s()
