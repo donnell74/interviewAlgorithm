@@ -8,6 +8,7 @@ class ExtensionsUtil
     @@javascriptIncludes = "js"
     @@phpIncludes = "php"
     @@pyIncludes = "py"
+    @@rbIncludes = "rb"
     @@txtIncludes = "txt"
     @@xmlIncludes = "xml"
     @@yamlIncludes = "yaml"
@@ -21,6 +22,7 @@ class ExtensionsUtil
     @@javascriptTag = "JavaScript"
     @@phpTag = "PHP"
     @@pyTag = "Python"
+    @@rbTag = "Ruby"
     @@txtTag = "Text"
     @@xmlTag = "XML"
     @@yamlTag = "YAML"
@@ -49,6 +51,8 @@ class ExtensionsUtil
                 return @@phpTag
             elsif @@pyIncludes.include?(extension)
                 return @@pyTag
+            elsif @@rbIncludes.include?(extension)
+                return @@rbTag
             elsif @@txtIncludes.include?(extension)
                 return @@txtTag
             elsif @@xmlIncludes.include?(extension)
@@ -59,5 +63,42 @@ class ExtensionsUtil
         end
 
         return nil;
+    end
+
+    def self.count(file)
+        skipMulti = false
+        singleStartTag = " //" # keep space to avoid urls
+        singleEndTag = "\\n"
+        multiStartTag = "/\\*"
+        multiEndTag = "\\*/"
+        segments = file.filename.split(".")
+        if segments.length > 0
+            String extension = segments[segments.length - 1];
+            if @@pyIncludes.include?(extension)
+                singleStartTag = "#"
+                multiStartTag = "\"\"\""
+                multiEndTag = "\"\"\""
+            elsif @@rbIncludes.include?(extension)
+                singleStartTag = "#"
+                multiStartTag = "=begin"
+                multiEndTag = "=end"
+            elsif @@htmlIncludes.include?(extension)
+                singleStartTag = "<!--"
+                singleEndTag = "-->"
+                skipMulti = true
+            end
+
+            count = file.patch.scan(/#{singleStartTag}[^#{singleEndTag}]*#{singleEndTag}/).size
+            if not skipMulti
+                matchList = file.patch.scan(/#{multiStartTag}[^#{multiEndTag}]*#{multiEndTag}/)
+                matchList.map{|x| x.count('\n')}.each do |numOfNewLines|
+                    if numOfNewLines == 0 or numOfNewLines.nil?
+                        count += 1
+                    else
+                        count += numOfNewLines
+                    end
+                end
+            end
+        end
     end
 end

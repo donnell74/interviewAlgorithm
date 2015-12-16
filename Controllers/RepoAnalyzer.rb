@@ -82,6 +82,8 @@ class RepoAnalyzer
 
     def addMyFiles(thisCommit)
         thisCommit.files.each do |eachFile|
+            #puts thisCommit.commit.message
+            #puts ExtensionsUtil.count(eachFile)
             lang = ExtensionsUtil.getLanguage(eachFile.filename, @repo.language)
             if lang.nil?
                 next
